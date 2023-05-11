@@ -1,0 +1,38 @@
+# docker compose -f docker-compose_dev.yml up -d to 
+version: "3"
+services:
+  node:
+    image: node:20.1.0-slim
+    container_name: node_server
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app/:/app/
+    working_dir: /app
+    # entrypoint: [ "npm", "start" ] # once installed this entry point will work
+    command: bash -c "npm install --omit=dev && npm run start"
+    networks:
+      - node-env
+
+  postgres:
+    image: postgres:15
+    container_name: postgres_server
+    restart: unless-stopped
+    expose:
+      - "5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: secure_pass
+      POSTGRES_DB: db
+      PGDATA: /var/lib/postgresql/data/psqldatabases # due to .gitignore causing trouble
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+      - ./db/tables.sql:/docker-entrypoint-initdb.d/0_tables.sql
+      - ./db/initial_rows.sql:/docker-entrypoint-initdb.d/1_initial_rows.sql
+    networks:
+      - node-env
+networks:
+  node-env:

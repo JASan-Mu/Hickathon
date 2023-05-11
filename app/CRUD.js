@@ -4,10 +4,10 @@ async function insertData() {
 	const [name, color] = process.argv.slice(2);
 	try {
 		const res = await pool.query(
-			"INSERT INTO shark (name, color) VALUES ($1, $2)",
+			"INSERT INTO table (field1, field2) VALUES ($1, $2)",
 			[name, color]
 		);
-		console.log(`Added a shark with the name ${name}`);
+		console.log(`Added`);
 	} catch (error) {
 		console.error(error)
 	}
@@ -15,7 +15,7 @@ async function insertData() {
 
 async function retrieveData() {
 	try {
-		const res = await pool.query("SELECT * FROM shark");
+		const res = await pool.query("SELECT * FROM table");
 		console.log(res.rows);
 	} catch (error) {
 		console.error(error);
@@ -25,11 +25,11 @@ async function retrieveData() {
 async function modifyData() {
 	const [id, name] = process.argv.slice(2);
 	try {
-		const res = await pool.query("UPDATE shark SET name = $1 WHERE id = $2", [
+		const res = await pool.query("UPDATE table SET name = $1 WHERE id = $2", [
 			name,
 			id,
 		]);
-		console.log(`Updated the shark name to ${name}`);
+		console.log(`Updated`);
 	} catch (error) {
 		console.error(error);
 	}

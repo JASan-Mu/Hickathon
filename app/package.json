@@ -1,12 +1,11 @@
 {
   "name": "app",
   "version": "1.0.0",
-  "description": "Hackaton project from Hicron",
+  "description": "Hackaton challenge/project from Hicron",
   "main": "index.js",
   "scripts": {
-    "install_db": "node install_database.js",
     "start": "node server.js",
-    "dev_start": "nodemon server.js"
+    "dev_start": "nodemon -L server.js"
   },
   "repository": {
     "type": "git",
